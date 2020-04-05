@@ -5,9 +5,9 @@ import (
 	"os"
 	"path"
 
-	"github.com/urfave/cli/v2"
+	kan_sdk "github.com/kan-fun/kan-sdk-go"
 	"github.com/spf13/viper"
-	"github.com/kan-fun/kan-sdk-go"
+	"github.com/urfave/cli/v2"
 )
 
 var configFilePath string
@@ -28,45 +28,40 @@ func init() {
 		panic(err)
 	}
 
-
 	viper.SetConfigName(".kanrc") // name of config file (without extension)
-	viper.SetConfigType("yaml") // REQUIRED if the config file does not have the extension in the name
+	viper.SetConfigType("yaml")   // REQUIRED if the config file does not have the extension in the name
 	viper.AddConfigPath("$HOME")  // call multiple times to add many search paths
 
 	err = viper.ReadInConfig() // Find and read the config file
-	if err != nil { // Handle errors reading the config file
+	if err != nil {            // Handle errors reading the config file
 		panic(err)
 	}
 
 	AccessKey := viper.GetString("access-key")
 	SecretKey := viper.GetString("secret-key")
 
-	client_local, err := kan_sdk.NewClient(AccessKey, SecretKey)
+	clientLocal, err := kan_sdk.NewClient(AccessKey, SecretKey)
 	if err != nil {
 		panic(err)
 	}
 
-	client = client_local
+	client = clientLocal
 }
 
 func main() {
 	app := &cli.App{
-		Name: "kan",
-		Usage: "👧💻 CLI for Kan 💻👦",
+		Name:     "kan",
+		Usage:    "👧💻 CLI for Kan 💻👦",
 		HelpName: "kan",
 		Flags: []cli.Flag{
-			&cli.BoolFlag{Name: "record"},
+			&cli.BoolFlag{Name: "pro"},
 		},
 		Action: index,
 	}
 	app.UseShortOptionHandling = true
 	/*
-		python main.py; kan
+		kan python main.py
 	*/
-
-	// app.Commands = []*cli.Command{
-	// 	cmd.Init(configFilePath),
-	// }
 
 	err := app.Run(os.Args)
 	if err != nil {
