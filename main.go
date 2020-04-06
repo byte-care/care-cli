@@ -69,7 +69,8 @@ func main() {
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: "pro"},
 		},
-		Action: index,
+		Action:  index,
+		Version: "0.0.1",
 	}
 	app.UseShortOptionHandling = true
 	/*
