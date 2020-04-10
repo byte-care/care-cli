@@ -1,10 +1,6 @@
 name: Go
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
 
@@ -37,6 +33,7 @@ jobs:
       run: go build -v .
 
     - run: ./deploy.sh
+      if: startsWith(github.event.ref, 'refs/tags')
       env: # Or as an environment variable
         ACCESSKEY: ${{ secrets.ACCESSKEY }}
         SECRETKEY: ${{ secrets.SECRETKEY }}

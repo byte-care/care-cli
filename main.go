@@ -11,6 +11,7 @@ import (
 )
 
 var configFilePath string
+var version string
 
 func init() {
 	homeDir, err := os.UserHomeDir()
@@ -70,12 +71,9 @@ func main() {
 			&cli.BoolFlag{Name: "pro"},
 		},
 		Action:  index,
-		Version: "0.0.1",
+		Version: version,
 	}
 	app.UseShortOptionHandling = true
-	/*
-		kan python main.py
-	*/
 
 	err := app.Run(os.Args)
 	if err != nil {
