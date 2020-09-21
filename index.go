@@ -110,6 +110,12 @@ func index(c *cli.Context) (err error) {
 		return
 	}
 
+	isUpdate := c.Bool("update")
+	if isUpdate {
+		update()
+		return
+	}
+
 	if _, err := os.Stat(configFilePath); err == nil {
 
 	} else if os.IsNotExist(err) {

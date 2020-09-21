@@ -57,6 +57,7 @@ func main() {
 		HelpName: "care",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: "pro"},
+			&cli.BoolFlag{Name: "update"},
 			&cli.StringFlag{Name: "token"},
 		},
 		Action:  index,
