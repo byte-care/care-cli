@@ -5,7 +5,7 @@ import (
 	"os"
 	"path"
 
-	caresdk "github.com/byte-care/care-sdk-go"
+	"github.com/byte-care/care-sdk-go"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
 )
