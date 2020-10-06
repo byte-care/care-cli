@@ -26,18 +26,6 @@ func init() {
 	viper.AddConfigPath("$HOME")   // call multiple times to add many search paths
 }
 
-func initClient() (client *caresdk.Client, err error) {
-	AccessKey := viper.GetString("access-key")
-	SecretKey := viper.GetString("secret-key")
-
-	client, err = caresdk.NewClient(AccessKey, SecretKey)
-	if err != nil {
-		panic(err)
-	}
-
-	return
-}
-
 func initLogClient(topic string, isPro bool) (client *caresdk.LogClient, err error) {
 	AccessKey := viper.GetString("access-key")
 	SecretKey := viper.GetString("secret-key")
@@ -56,7 +44,7 @@ func main() {
 		Usage:    "👧💻 CLI for Care 💻👦",
 		HelpName: "care",
 		Flags: []cli.Flag{
-			&cli.BoolFlag{Name: "pro"},
+			&cli.BoolFlag{Name: "disable-pub"},
 			&cli.BoolFlag{Name: "update"},
 			&cli.StringFlag{Name: "access-key"},
 			&cli.StringFlag{Name: "secret-key"},

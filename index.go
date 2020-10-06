@@ -8,7 +8,6 @@ import (
 	"github.com/spf13/viper"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -167,7 +166,8 @@ func index(c *cli.Context) (err error) {
 		panic(err)
 	}
 
-	isPro := c.Bool("pro")
+	disablePub := c.Bool("disable-pub")
+	isPro := !disablePub
 
 	first := c.Args().First()
 	tail := c.Args().Tail()
@@ -177,12 +177,6 @@ func index(c *cli.Context) (err error) {
 	logClient, err := initLogClient(fullCmd, isPro)
 	if err != nil {
 		return
-	}
-
-	if isPro {
-		log.Println("====🚀 care Pro 🚀====")
-	} else {
-		log.Println("====😃 care Basic 😃====")
 	}
 
 	logChan := make(chan string, 15)
