@@ -117,7 +117,7 @@ func logChanHandler(logClient *caresdk.LogClient, logChan chan string, done chan
 			}
 		case s, ok := <-logChan:
 			{
-				buffer.WriteString("<br/>")
+				buffer.WriteString("\n")
 				buffer.WriteString(s)
 				if buffer.Len() == 20 || !ok {
 					err := logClient.PubLog(buffer.String())
@@ -189,6 +189,7 @@ func index(c *cli.Context) (err error) {
 	done := make(chan int)
 	go logChanHandler(logClient, logChan, done)
 
+	os.Setenv("PYTHONUNBUFFERED", "1")
 	cmd := exec.Command(first, tail...)
 
 	if isPro {
