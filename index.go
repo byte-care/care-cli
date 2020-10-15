@@ -222,6 +222,6 @@ func index(c *cli.Context) (err error) {
 
 	logClient.CloseLog(err == nil)
 
-	//update()
+	update()
 	return nil
 }
