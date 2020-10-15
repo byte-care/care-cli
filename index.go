@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -116,19 +117,22 @@ func logChanHandler(logClient *caresdk.LogClient, logChan chan string, done chan
 			}
 		case s, ok := <-logChan:
 			{
-				buffer.WriteString("\n")
+				buffer.WriteString("<br/>")
 				buffer.WriteString(s)
-				if buffer.Len() == 20 {
-					logClient.PubLog(buffer.String())
+				if buffer.Len() == 20 || !ok {
+					err := logClient.PubLog(buffer.String())
+					if err != nil {
+						log.Println(err.Error())
+					}
 					buffer.Reset()
 				}
 
 				if !ok {
-					break
+					done <- 1
+					return
 				}
 			}
 		}
-		done <- 1
 	}
 }
 
@@ -213,11 +217,11 @@ func index(c *cli.Context) (err error) {
 		err = cmd.Run()
 	}
 
-	logClient.CloseLog(err == nil)
 	close(logChan)
-
-	update()
 	<-done
 
+	logClient.CloseLog(err == nil)
+
+	//update()
 	return nil
 }
