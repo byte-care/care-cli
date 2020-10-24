@@ -160,7 +160,7 @@ func index(c *cli.Context) (err error) {
 	if _, err := os.Stat(configFilePath); err == nil {
 
 	} else if os.IsNotExist(err) {
-		println("Please use --access-key and --secret-key to set token. 😀")
+		println("Please follow https://docs.bytecare.xyz/ , using --access-key and --secret-key to set token.")
 		return err
 	} else {
 		panic(err)
